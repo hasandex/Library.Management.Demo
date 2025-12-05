@@ -68,6 +68,14 @@ namespace Library.Management.Demo.Services
             return await _bookRepo.Create(book);
         }
 
+        public async Task<bool> DeleteBook(int id)
+        {
+            var book = await _bookRepo.GetById(id);
+            if (book == null)
+                throw new KeyNotFoundException($"book with id {id} not found");
+            return await _bookRepo.Remove(book);
+        }
+
         public async Task<Bookdto> GetBookById(int id)
         {
             var book = await _bookRepo.GetById(id);

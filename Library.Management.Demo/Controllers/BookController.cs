@@ -15,14 +15,14 @@ namespace Library.Management.Demo.Controllers
             _bookeService = bookeService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetBooks(string? searchKey)
+        public async Task<IActionResult> Get(string? searchKey)
         {
             var books = await _bookeService.GetBooks(searchKey);
             return Ok(books);
         }
 
         [HttpGet("GetById")]
-        public async Task<ActionResult<Bookdto>> GetBookById(int id)
+        public async Task<ActionResult<Bookdto>> GetById(int id)
         {
             try
             {
@@ -64,6 +64,22 @@ namespace Library.Management.Demo.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var deleted = await _bookeService.DeleteBook(id);
+                if (!deleted)
+                    return BadRequest("something went wrong");
+                return Ok($"book with id {id} has been deleted");
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
             }
         }
     }

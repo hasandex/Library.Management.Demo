@@ -45,6 +45,12 @@ namespace Library.Management.Demo.Repositories
             return query;
         }
 
+        public async Task<bool> Remove(Book book)
+        {
+            _context.Books.Remove(book);
+            return await _context.SaveChangesAsync() > 0 ? true : false;
+        }
+
         public async Task<bool> Update(Book book)
         {
             _context.Books.Update(book);
