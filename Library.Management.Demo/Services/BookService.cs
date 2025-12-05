@@ -1,0 +1,86 @@
+﻿using Library.Management.Demo.Dtos;
+using Library.Management.Demo.Extension;
+using Library.Management.Demo.IRepositories;
+using Library.Management.Demo.Models;
+using Library.Management.Demo.Repositories;
+using Microsoft.EntityFrameworkCore;
+
+namespace Library.Management.Demo.Services
+{
+    public class BookService : IBookeService
+    {
+        private readonly IBookReo _bookRepo;
+        private readonly IAuthorRepo _authorRepo;
+        private readonly ICategoryRepo _categoryRepo;
+        private readonly IPublisherRepo _publisherRepo;
+        private readonly ILIbraryRepo _IbraryRepo;
+
+
+        public BookService(IBookReo bookRepo, IAuthorRepo authorRepo, ICategoryRepo categoryRepo, IPublisherRepo publisherRepo, ILIbraryRepo ibraryRepo)
+        {
+            _bookRepo = bookRepo;
+            _authorRepo = authorRepo;
+            _categoryRepo = categoryRepo;
+            _publisherRepo = publisherRepo;
+            _IbraryRepo = ibraryRepo;
+        }
+
+        public async Task<bool> CreateBook(CreateUpdateBookDto dto)
+        {
+            //Validation
+
+            var autor = await _authorRepo.CheckExistence(dto.AuthorId);
+            if(!autor)
+                throw new ArgumentException("Author is not existed",nameof(autor));
+
+            var category = await _categoryRepo.CheckExistence(dto.CategoryId);
+            if (!category)
+                throw new ArgumentException("Category is not existed", nameof(category));
+
+            var publisher = await _publisherRepo.CheckExistence(dto.PublisherId);
+            if (!publisher)
+                throw new ArgumentException("Publisher is not existed", nameof(publisher));
+
+            foreach (var libId in dto.LibrariesId)
+            {
+                var library = await _IbraryRepo.CheckExistence(libId);
+                if (!library)
+                    throw new ArgumentException($"Library with the id {libId} is not existed", nameof(library));
+            }
+
+            var book = new Book()
+            {
+                Title = dto.Title,
+                CategoryId = dto.CategoryId,
+                AuthorId = dto.AuthorId,
+                PublishedYear = dto.PublishedYear,
+                PublisherId = dto.PublisherId,
+                Quantity = dto.Quantity,
+            };
+            foreach (var libId in dto.LibrariesId)
+            {
+                book.BookLibraries.Add(new BookLibrary() { LibraryId = libId });
+            }
+            return await _bookRepo.Create(book);
+        }
+
+        public async Task<List<Bookdto>> GetBooks(string? searchKey)
+        {
+            var query = await _bookRepo.GetList().BookFilter(searchKey).ToListAsync();
+            var books = query.Select(b=> new Bookdto()
+            {
+                Title = b.Title,
+                Author = b.Author.Name,
+                Quantity = b.Quantity,
+                AvailableEditions = b.AvailableEditions,
+                PublishedYear = b.PublishedYear,
+                Publisher = b.Publisher.Name,
+                Category = b.Category.Name,
+                Libraries = b.BookLibraries.Select(bl => bl.Library.Name).ToList(),
+                Reviews = b.Reviews.Select(r=> r.Comment).ToList(),
+            });
+            return books.ToList();
+        }
+
+    }
+}
