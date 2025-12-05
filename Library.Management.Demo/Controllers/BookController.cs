@@ -52,5 +52,19 @@ namespace Library.Management.Demo.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(CreateUpdateBookDto dto)
+        {
+            try
+            {
+                await _bookeService.UpdateBook(dto);
+                return Ok("book has been updated");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -24,6 +24,7 @@ builder.Services.AddScoped<IAuthorRepo, AuthorRepo>();
 builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
 builder.Services.AddScoped<IPublisherRepo, PublisherRepo>();
 builder.Services.AddScoped<ILIbraryRepo, LibraryRepo>();
+builder.Services.AddScoped<IBookLibraryRepo, BookLibraryRepo>();
 
 
 

@@ -7,5 +7,6 @@ namespace Library.Management.Demo.Services
         Task<List<Bookdto>> GetBooks(string? searchKey);
         Task<Bookdto> GetBookById(int id);
         Task<bool> CreateBook(CreateUpdateBookDto dto);
+        Task<bool> UpdateBook(CreateUpdateBookDto dto);
     }
 }

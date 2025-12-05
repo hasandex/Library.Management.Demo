@@ -7,5 +7,6 @@ namespace Library.Management.Demo.IRepositories
         IQueryable<Book> GetList();
         Task<Book> GetById(int id);
         Task<bool> Create(Book book);
+        Task<bool> Update(Book book);
     }
 }

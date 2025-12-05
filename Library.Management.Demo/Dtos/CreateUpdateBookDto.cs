@@ -4,7 +4,7 @@ namespace Library.Management.Demo.Dtos
 {
     public class CreateUpdateBookDto
     {
-        public int Id { get; set; }
+        public int BookId { get; set; }
         [MaxLength(100)]
         public string Title { get; set; } = null!;
         public int AuthorId { get; set; }

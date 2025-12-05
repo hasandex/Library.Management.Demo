@@ -44,5 +44,11 @@ namespace Library.Management.Demo.Repositories
                 .AsNoTracking();
             return query;
         }
+
+        public async Task<bool> Update(Book book)
+        {
+            _context.Books.Update(book);
+            return await _context.SaveChangesAsync() > 0 ? true :false ;
+        }
     }
 }
