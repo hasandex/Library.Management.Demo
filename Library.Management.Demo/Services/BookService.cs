@@ -142,25 +142,24 @@ namespace Library.Management.Demo.Services
 
             //fetch the related libraries
 
-            var existeingLibraries = await _bookLibraryRepo.GetList()
-                .Where(bl => bl.BookId == dto.BookId)
-                .ToListAsync();
+            var existeingLibraries = book.BookLibraries
+                .Select(bl => bl.LibraryId).ToList();
 
             //remove what is no longer associated
 
             var updatedLibraries = new HashSet<int>(dto.LibrariesId);
 
-            foreach (var library in existeingLibraries)
+            foreach (var libraryId in existeingLibraries)
             {
-                if (!updatedLibraries.Contains(library.LibraryId))
-                    await _bookLibraryRepo.RemoveByLibraryId(library.LibraryId);
+                if (!updatedLibraries.Contains(libraryId))
+                    await _bookLibraryRepo.RemoveByLibraryId(libraryId);
             }
 
             //Add new BookLibraries that don't already exist
 
             foreach (var libId in dto.LibrariesId)
             {
-                if (!existeingLibraries.Any(bl => bl.LibraryId == libId))
+                if (!existeingLibraries.Contains(libId))
                 {
                     await _bookLibraryRepo.Insert(libId, dto.BookId);
                 }

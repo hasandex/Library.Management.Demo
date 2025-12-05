@@ -13,11 +13,6 @@ namespace Library.Management.Demo.Repositories
             _context = context;
         }
 
-        public IQueryable<BookLibrary> GetList()
-        {
-            return _context.BookLibraries.AsQueryable();
-        }
-
         public async Task<bool> Insert(int libraryId, int bookId)
         {
             _context.BookLibraries.Add(new BookLibrary() { BookId = bookId, LibraryId = libraryId });
