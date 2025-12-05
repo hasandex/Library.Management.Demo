@@ -5,6 +5,7 @@ namespace Library.Management.Demo.IRepositories
     public interface IBookReo
     {
         IQueryable<Book> GetList();
+        Task<Book> GetById(int id);
         Task<bool> Create(Book book);
     }
 }

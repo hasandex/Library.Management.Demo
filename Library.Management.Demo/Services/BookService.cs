@@ -64,6 +64,26 @@ namespace Library.Management.Demo.Services
             return await _bookRepo.Create(book);
         }
 
+        public async Task<Bookdto> GetBookById(int id)
+        {
+            var book = await _bookRepo.GetById(id);
+            if (book == null)
+                throw new KeyNotFoundException($"Book with id {id} not found");
+            var bookdto = new Bookdto()
+            {
+                Title = book.Title,
+                Author = book.Author.Name,
+                Category = book.Category.Name,
+                PublishedYear = book.PublishedYear,
+                Publisher = book.Publisher.Name,
+                Quantity = book.Quantity,
+                AvailableEditions = book.AvailableEditions,
+                Libraries = book.BookLibraries.Select(bl=>bl.Library.Name).ToList(),
+                Reviews = book.Reviews.Select(r=>r.Comment).ToList()
+            };
+            return bookdto;
+        }
+
         public async Task<List<Bookdto>> GetBooks(string? searchKey)
         {
             var query = await _bookRepo.GetList().BookFilter(searchKey).ToListAsync();

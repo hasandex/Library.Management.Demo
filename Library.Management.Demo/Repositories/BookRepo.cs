@@ -20,6 +20,18 @@ namespace Library.Management.Demo.Repositories
             return await _context.SaveChangesAsync() > 0 ? true : false ;
         }
 
+        public async Task<Book> GetById(int id)
+        {
+            return await _context.Books
+                .Include(b => b.Category)
+                .Include(b => b.Author)
+                .Include(b => b.Publisher)
+                .Include(b => b.Reviews)
+                .Include(b => b.BookLibraries)
+                .ThenInclude(bl => bl.Library)
+                .FirstOrDefaultAsync(b => b.Id == id);   
+        }
+
         public IQueryable<Book> GetList()
         {
             var query = _context.Books

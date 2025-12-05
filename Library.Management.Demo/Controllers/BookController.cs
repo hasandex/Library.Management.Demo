@@ -21,6 +21,20 @@ namespace Library.Management.Demo.Controllers
             return Ok(books);
         }
 
+        [HttpGet("GetById")]
+        public async Task<ActionResult<Bookdto>> GetBookById(int id)
+        {
+            try
+            {
+                var book = await _bookeService.GetBookById(id);
+                return Ok(book);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateUpdateBookDto dto)
         {

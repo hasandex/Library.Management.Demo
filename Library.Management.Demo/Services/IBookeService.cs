@@ -5,6 +5,7 @@ namespace Library.Management.Demo.Services
     public interface IBookeService
     {
         Task<List<Bookdto>> GetBooks(string? searchKey);
+        Task<Bookdto> GetBookById(int id);
         Task<bool> CreateBook(CreateUpdateBookDto dto);
     }
 }
