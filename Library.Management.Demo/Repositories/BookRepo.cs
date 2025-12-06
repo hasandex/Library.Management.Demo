@@ -14,6 +14,12 @@ namespace Library.Management.Demo.Repositories
             _context = context;
         }
 
+        public async Task<bool> CheckExistense(string title)
+        {
+            var book = await _context.Books.FirstOrDefaultAsync(a => a.Title == title);
+            return book != null ? false : true;
+        }
+
         public async Task<bool> Create(Book book)
         {
             await _context.Books.AddAsync(book);

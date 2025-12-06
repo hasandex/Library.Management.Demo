@@ -32,6 +32,9 @@ namespace Library.Management.Demo.Services
         public async Task<bool> CreateBook(CreateUpdateBookDto dto)
         {
             //Validation
+            var isExisted = await _bookRepo.CheckExistense(dto.Title);
+            if (!isExisted)
+                throw new ArgumentException("Book is already existed");
 
             var autor = await _authorRepo.CheckExistence(dto.AuthorId);
             if(!autor)

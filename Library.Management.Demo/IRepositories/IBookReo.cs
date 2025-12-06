@@ -9,5 +9,6 @@ namespace Library.Management.Demo.IRepositories
         Task<bool> Create(Book book);
         Task<bool> Update(Book book);
         Task<bool> Remove(Book book);
+        Task<bool> CheckExistense(string title);
     }
 }
