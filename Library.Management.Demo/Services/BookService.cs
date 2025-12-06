@@ -92,6 +92,7 @@ namespace Library.Management.Demo.Services
                 PublishedYear = book.PublishedYear,
                 Publisher = book.Publisher.Name,
                 Quantity = book.Quantity,
+                BookEditions = book.BookEditions.Select(be => be.CopyNumber).ToList(),
                 Libraries = book.BookLibraries.Select(bl=>bl.Library.Name).ToList(),
                 Reviews = book.Reviews.Select(r=>r.Comment).ToList()
             };
@@ -109,6 +110,7 @@ namespace Library.Management.Demo.Services
                 PublishedYear = b.PublishedYear,
                 Publisher = b.Publisher.Name,
                 Category = b.Category.Name,
+                BookEditions = b.BookEditions.Select(be => be.CopyNumber).ToList(),
                 Libraries = b.BookLibraries.Select(bl => bl.Library.Name).ToList(),
                 Reviews = b.Reviews.Select(r=> r.Comment).ToList(),
             });

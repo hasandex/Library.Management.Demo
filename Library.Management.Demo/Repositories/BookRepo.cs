@@ -33,6 +33,7 @@ namespace Library.Management.Demo.Repositories
                 .Include(b => b.Author)
                 .Include(b => b.Publisher)
                 .Include(b => b.Reviews)
+                .Include(b=> b.BookEditions)
                 .Include(b => b.BookLibraries)
                 .ThenInclude(bl => bl.Library)
                 .FirstOrDefaultAsync(b => b.Id == id);   
@@ -45,6 +46,7 @@ namespace Library.Management.Demo.Repositories
                 .Include(b=>b.Author)
                 .Include(b=>b.Publisher)
                 .Include(b=>b.Reviews)
+                .Include(b => b.BookEditions)
                 .Include(b=>b.BookLibraries)
                 .ThenInclude(bl=>bl.Library)
                 .AsNoTracking();

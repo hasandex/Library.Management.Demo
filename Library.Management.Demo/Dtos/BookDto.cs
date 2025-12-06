@@ -15,7 +15,7 @@
 
         public int Quantity { get; set; }
 
-        public int? AvailableEditions { get; set; }
+        public List<int> BookEditions { get; set; } = new List<int>();
         public List<string> Libraries { get; set; } = new List<string>();
         public List<string> Reviews { get; set; } = new List<string>();
 

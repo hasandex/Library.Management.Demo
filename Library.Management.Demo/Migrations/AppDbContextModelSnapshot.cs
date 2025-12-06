@@ -339,7 +339,7 @@ namespace Library.Management.Demo.Migrations
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Transactions", (string)null);
                 });
 
             modelBuilder.Entity("Library.Management.Demo.Models.Book", b =>
