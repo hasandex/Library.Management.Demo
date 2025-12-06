@@ -19,8 +19,6 @@ public partial class Book
 
     public int Quantity { get; set; }
 
-    public int? AvailableEditions { get; set; }
-
     public virtual Author Author { get; set; } = null!;
 
     public virtual ICollection<BookEdition> BookEditions { get; set; } = new List<BookEdition>();

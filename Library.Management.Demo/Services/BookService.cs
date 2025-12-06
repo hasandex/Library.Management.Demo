@@ -89,7 +89,6 @@ namespace Library.Management.Demo.Services
                 PublishedYear = book.PublishedYear,
                 Publisher = book.Publisher.Name,
                 Quantity = book.Quantity,
-                AvailableEditions = book.AvailableEditions,
                 Libraries = book.BookLibraries.Select(bl=>bl.Library.Name).ToList(),
                 Reviews = book.Reviews.Select(r=>r.Comment).ToList()
             };
@@ -104,7 +103,6 @@ namespace Library.Management.Demo.Services
                 Title = b.Title,
                 Author = b.Author.Name,
                 Quantity = b.Quantity,
-                AvailableEditions = b.AvailableEditions,
                 PublishedYear = b.PublishedYear,
                 Publisher = b.Publisher.Name,
                 Category = b.Category.Name,
