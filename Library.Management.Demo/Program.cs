@@ -26,7 +26,7 @@ builder.Services.AddScoped<IPublisherRepo, PublisherRepo>();
 builder.Services.AddScoped<ILIbraryRepo, LibraryRepo>();
 builder.Services.AddScoped<IBookLibraryRepo, BookLibraryRepo>();
 
-
+builder.Services.AddMemoryCache();
 
 
 

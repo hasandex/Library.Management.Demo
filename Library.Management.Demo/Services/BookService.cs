@@ -4,6 +4,7 @@ using Library.Management.Demo.IRepositories;
 using Library.Management.Demo.Models;
 using Library.Management.Demo.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System.Linq;
 
 namespace Library.Management.Demo.Services
@@ -16,10 +17,12 @@ namespace Library.Management.Demo.Services
         private readonly IPublisherRepo _publisherRepo;
         private readonly ILIbraryRepo _IbraryRepo;
         private readonly IBookLibraryRepo _bookLibraryRepo;
+        private readonly IMemoryCache _memoryCache;
 
         public BookService(IBookReo bookRepo, IAuthorRepo authorRepo,
             ICategoryRepo categoryRepo, IPublisherRepo publisherRepo,
-            ILIbraryRepo ibraryRepo, IBookLibraryRepo bookLibraryRepo)
+            ILIbraryRepo ibraryRepo, IBookLibraryRepo bookLibraryRepo,
+            IMemoryCache memoryCache)
         {
             _bookRepo = bookRepo;
             _authorRepo = authorRepo;
@@ -27,6 +30,7 @@ namespace Library.Management.Demo.Services
             _publisherRepo = publisherRepo;
             _IbraryRepo = ibraryRepo;
             _bookLibraryRepo = bookLibraryRepo;
+            _memoryCache = memoryCache;
         }
 
         public async Task<bool> CreateBook(CreateUpdateBookDto dto)
@@ -101,20 +105,28 @@ namespace Library.Management.Demo.Services
 
         public async Task<List<Bookdto>> GetBooks(string? searchKey)
         {
-            var query = await _bookRepo.GetList().BookFilter(searchKey).ToListAsync();
-            var books = query.Select(b=> new Bookdto()
+            var books = new List<Bookdto>();
+            string cacheKey = Helper.BookCacheKey + (searchKey ?? "");
+            if (!_memoryCache.TryGetValue(cacheKey, out books))
             {
-                Title = b.Title,
-                Author = b.Author.Name,
-                Quantity = b.Quantity,
-                PublishedYear = b.PublishedYear,
-                Publisher = b.Publisher.Name,
-                Category = b.Category.Name,
-                BookEditions = b.BookEditions.Select(be => be.CopyNumber).ToList(),
-                Libraries = b.BookLibraries.Select(bl => bl.Library.Name).ToList(),
-                Reviews = b.Reviews.Select(r=> r.Comment).ToList(),
-            });
-            return books.ToList();
+                var query = await _bookRepo.GetList().BookFilter(searchKey).ToListAsync();
+                books = query.Select(b => new Bookdto()
+                {
+                    Title = b.Title,
+                    Author = b.Author.Name,
+                    Quantity = b.Quantity,
+                    PublishedYear = b.PublishedYear,
+                    Publisher = b.Publisher.Name,
+                    Category = b.Category.Name,
+                    BookEditions = b.BookEditions.Select(be => be.CopyNumber).ToList(),
+                    Libraries = b.BookLibraries.Select(bl => bl.Library.Name).ToList(),
+                    Reviews = b.Reviews.Select(r => r.Comment).ToList(),
+                }).ToList();
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(1));
+                _memoryCache.Set(cacheKey, books, cacheEntryOptions);
+            }        
+            return books;
         }
 
         public async Task<bool> UpdateBook(CreateUpdateBookDto dto)
