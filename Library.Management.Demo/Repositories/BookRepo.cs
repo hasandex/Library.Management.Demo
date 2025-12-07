@@ -1,7 +1,9 @@
-﻿using Library.Management.Demo.Extension;
+﻿using Library.Management.Demo.Dtos;
+using Library.Management.Demo.Extension;
 using Library.Management.Demo.IRepositories;
 using Library.Management.Demo.Models;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Library.Management.Demo.Repositories
 {
@@ -24,6 +26,34 @@ namespace Library.Management.Demo.Repositories
         {
             await _context.Books.AddAsync(book);
             return await _context.SaveChangesAsync() > 0 ? true : false ;
+        }
+
+        public async Task<List<BookRatingDto>> GetBooksRating()
+        {
+            var result = new List<BookRatingDto>();
+            using (var connection = _context.Database.GetDbConnection())
+            {
+                await connection.OpenAsync();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = "GetBookAverageRatings";
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var bookRating = new BookRatingDto()
+                            {
+                                Title = reader.GetString(reader.GetOrdinal("Title")),
+                                PublisherName = reader.GetString(reader.GetOrdinal("publisherName")),
+                                AverageRating = reader.GetInt32(reader.GetOrdinal("AverageRating"))
+                            };
+                            result.Add(bookRating);
+                        }
+                    }
+                }
+            }
+            return result;
         }
 
         public async Task<Book> GetById(int id)

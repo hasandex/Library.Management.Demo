@@ -15,7 +15,7 @@ namespace Library.Management.Demo.Controllers
             _bookeService = bookeService;
         }
         [HttpGet]
-        public async Task<IActionResult> Get(string? searchKey)
+        public async Task<ActionResult<Bookdto>> Get(string? searchKey)
         {
             var books = await _bookeService.GetBooks(searchKey);
             return Ok(books);
@@ -81,6 +81,13 @@ namespace Library.Management.Demo.Controllers
             {
                 return NotFound(ex.Message);
             }
+        }
+
+        [HttpGet("BooksRating")]
+        public async Task<ActionResult<BookRatingDto>> BooksRating()
+        {
+            var ratings = await _bookeService.GetBooksRate();
+            return Ok(ratings);
         }
     }
 }

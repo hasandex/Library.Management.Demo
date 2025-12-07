@@ -9,5 +9,8 @@ namespace Library.Management.Demo.Services
         Task<bool> CreateBook(CreateUpdateBookDto dto);
         Task<bool> UpdateBook(CreateUpdateBookDto dto);
         Task<bool> DeleteBook(int id);
+
+        Task<List<BookRatingDto>> GetBooksRate();
+        
     }
 }

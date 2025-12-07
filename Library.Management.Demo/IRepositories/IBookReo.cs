@@ -1,4 +1,5 @@
-﻿using Library.Management.Demo.Models;
+﻿using Library.Management.Demo.Dtos;
+using Library.Management.Demo.Models;
 
 namespace Library.Management.Demo.IRepositories
 {
@@ -10,5 +11,7 @@ namespace Library.Management.Demo.IRepositories
         Task<bool> Update(Book book);
         Task<bool> Remove(Book book);
         Task<bool> CheckExistense(string title);
+
+        Task<List<BookRatingDto>> GetBooksRating();
     }
 }
