@@ -11,7 +11,7 @@
 
         public string Publisher { get; set; }
 
-        public int? PublishedYear { get; set; }
+        public DateTime? PublishedYear { get; set; }
 
         public int Quantity { get; set; }
 

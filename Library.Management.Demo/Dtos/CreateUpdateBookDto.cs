@@ -12,8 +12,7 @@ namespace Library.Management.Demo.Dtos
         public int CategoryId { get; set; }
 
         public int PublisherId { get; set; }
-        [Range(1000,2035, ErrorMessage = "Published year must be a valid year.")]
-        public int? PublishedYear { get; set; }
+        public DateTime? PublishedYear { get; set; }
 
         [Range(1, 100, ErrorMessage = "Quantity must be between 1 and 100.")]
         public int Quantity { get; set; }

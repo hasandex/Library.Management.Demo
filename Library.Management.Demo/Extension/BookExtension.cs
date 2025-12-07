@@ -18,7 +18,7 @@ namespace Library.Management.Demo.Extension
                 b.Author.Name.ToLower().Contains(key) ||
                 b.Publisher.Name.ToLower().Contains(key) ||
                  b.BookLibraries.Any(l => l.Library.Name.ToLower().Contains(key)) ||
-                b.PublishedYear == yearKey);
+                b.PublishedYear.Value.Year == yearKey);
                 return query;
             }
             return query;

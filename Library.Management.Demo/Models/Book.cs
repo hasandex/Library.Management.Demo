@@ -15,7 +15,7 @@ public partial class Book
 
     public int PublisherId { get; set; }
 
-    public int? PublishedYear { get; set; }
+    public DateTime? PublishedYear { get; set; }
 
     public int Quantity { get; set; }
 
