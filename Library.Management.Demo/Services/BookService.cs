@@ -72,7 +72,10 @@ namespace Library.Management.Demo.Services
             {
                 book.BookLibraries.Add(new BookLibrary() { LibraryId = libId });
             }
-            return await _bookRepo.Create(book);
+            var isCreated = await _bookRepo.Create(book);
+            _memoryCache.Remove(Helper.BookCacheKey);
+            await _memoryCache.Set(Helper.BookCacheKey,GetBooks(""),TimeSpan.FromMinutes(5));
+            return isCreated;
         }
 
         public async Task<bool> DeleteBook(int id)
@@ -80,7 +83,10 @@ namespace Library.Management.Demo.Services
             var book = await _bookRepo.GetById(id);
             if (book == null)
                 throw new KeyNotFoundException($"book with id {id} not found");
-            return await _bookRepo.Remove(book);
+            var removed = await _bookRepo.Remove(book);
+            _memoryCache.Remove(Helper.BookCacheKey);
+            await _memoryCache.Set(Helper.BookCacheKey, GetBooks(""), TimeSpan.FromMinutes(5));
+            return removed;
         }
 
         public async Task<Bookdto> GetBookById(int id)
@@ -123,7 +129,7 @@ namespace Library.Management.Demo.Services
                     Reviews = b.Reviews.Select(r => r.Comment).ToList(),
                 }).ToList();
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromMinutes(1));
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(5));
                 _memoryCache.Set(cacheKey, books, cacheEntryOptions);
             }        
             return books;
@@ -192,7 +198,10 @@ namespace Library.Management.Demo.Services
                     await _bookLibraryRepo.Insert(libId, dto.BookId);
                 }
             }
-            return await _bookRepo.Update(book);
+            var updated = await _bookRepo.Update(book);
+            _memoryCache.Remove(Helper.BookCacheKey);
+            await _memoryCache.Set(Helper.BookCacheKey, GetBooks(""), TimeSpan.FromMinutes(5));
+            return updated;
 
         }
     }
