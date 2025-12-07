@@ -14,7 +14,7 @@ namespace Library.Management.Demo.Controllers
         {
             _bookeService = bookeService;
         }
-        [HttpGet]
+        [HttpGet("List")]
         public async Task<ActionResult<Bookdto>> Get(string? searchKey)
         {
             var books = await _bookeService.GetBooks(searchKey);
@@ -35,7 +35,7 @@ namespace Library.Management.Demo.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("Create")]
         public async Task<IActionResult> Create(CreateUpdateBookDto dto)
         {
             if(!ModelState.IsValid)
@@ -53,7 +53,7 @@ namespace Library.Management.Demo.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPut("Update")]
         public async Task<IActionResult> Update(CreateUpdateBookDto dto)
         {
             try
@@ -67,7 +67,7 @@ namespace Library.Management.Demo.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("Delete")]
         public async Task<IActionResult> Delete(int id)
         {
             try
