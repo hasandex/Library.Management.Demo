@@ -5,6 +5,7 @@ A simple Library Management System built with ASP.NET Core Web Api that allows u
 ## Table of Contents
 
 - [Features](#features)
+- [Architecture](#architecture)
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -15,6 +16,17 @@ A simple Library Management System built with ASP.NET Core Web Api that allows u
 - **CRUD Operations**: Create, Read, Update, and Delete books.
 - **Search Functionality**: Search for books by title, author, or genre.
 - **Data Validation**: Ensures book information is accurate and consistent.
+- **In-Memory Caching**: Utilizes in-memory caching for better performance on frequent read operations.
+
+## Architecture
+
+The project follows a **layered architecture** consisting of:
+
+- **Controllers**: Handle incoming API requests and direct them to the appropriate services.
+- **Service Layer**: Contains business logic and validations, managing the application’s core functionality.
+- **Repository Layer**: Responsible for data access, managing interactions with the database.
+
+This architecture helps maintain clean separation of concerns, enhancing the maintainability and scalability of the application.
 
 ## Technologies Used
 
