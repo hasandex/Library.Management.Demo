@@ -9,7 +9,6 @@ A simple Library Management System built with ASP.NET Core Web Api that allows u
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
-- [License](#license)
 
 ## Features
 
@@ -55,10 +54,10 @@ Search for books using the search feature.
 ## API Endpoints
 
 Method	Endpoint	Description:
-- GET	/api/book/List	Get the list of all books.
-- GET	/api/book/GetById/{id}	Get a book by its ID.
-- POST	/api/book/Create	Add a new book.
-- PUT	/api/book/Update	Update an existing book.
-- DELETE	/api/book/Delete/{id}	Delete a book by its ID.
-- GET	/api/book/List?search="key search"	Search for books by title, author, or genre.
-- GET /api/book/BooksRating  Display books rating
+- GET	/api/book/List	                        Get the list of all books.
+- GET	/api/book/GetById/{id}	               Get a book by its ID.
+- POST	/api/book/Create	                  Add a new book.
+- PUT	/api/book/Update	                     Update an existing book.
+- DELETE	/api/book/Delete/{id}	            Delete a book by its ID.
+- GET	/api/book/List?search="key search"	   Search for books by title, author, or genre.
+- GET /api/book/BooksRating                  Display books rating.
