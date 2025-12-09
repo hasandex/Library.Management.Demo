@@ -15,13 +15,13 @@ namespace Library.Management.Demo.Controllers
             _bookeService = bookeService;
         }
         [HttpGet("List")]
-        public async Task<ActionResult<Bookdto>> Get(string? searchKey)
+        public async Task<IActionResult> Get(string? searchKey)
         {
             var books = await _bookeService.GetBooks(searchKey);
-            return Ok(books);
+            return Ok(new { count = books.Count , list = books} );
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("GetById/{id}")]
         public async Task<ActionResult<Bookdto>> GetById(int id)
         {
             try
@@ -67,7 +67,7 @@ namespace Library.Management.Demo.Controllers
             }
         }
 
-        [HttpDelete("Delete")]
+        [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -88,6 +88,12 @@ namespace Library.Management.Demo.Controllers
         {
             var ratings = await _bookeService.GetBooksRate();
             return Ok(ratings);
+        }
+        [HttpGet("GetBooksSql")]
+        public async Task<IActionResult> GetBooksFromSql(string? searchKey)
+        {
+            var books = await _bookeService.GetBooksSql(searchKey);
+            return Ok(new {count = books.Count, list = books});
         }
     }
 }

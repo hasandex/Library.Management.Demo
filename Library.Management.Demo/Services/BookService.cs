@@ -140,6 +140,11 @@ namespace Library.Management.Demo.Services
             return await _bookRepo.GetBooksRating();
         }
 
+        public async Task<List<Bookdto>> GetBooksSql(string searchKey)
+        {
+            return await _bookRepo.GetBooksSql(searchKey);
+        }
+
         public async Task<bool> UpdateBook(CreateUpdateBookDto dto)
         {
             var book = await _bookRepo.GetById(dto.BookId);

@@ -13,5 +13,7 @@ namespace Library.Management.Demo.IRepositories
         Task<bool> CheckExistense(string title);
 
         Task<List<BookRatingDto>> GetBooksRating();
+
+        Task<List<Bookdto>> GetBooksSql(string? searchKey);
     }
 }
