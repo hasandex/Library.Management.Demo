@@ -66,10 +66,11 @@ Search for books using the search feature.
 ## API Endpoints
 
 Method	Endpoint	Description:
-- GET	/api/book/List	                        Get the list of all books.
-- GET	/api/book/GetById/{id}	               Get a book by its ID.
-- POST	/api/book/Create	                  Add a new book.
-- PUT	/api/book/Update	                     Update an existing book.
-- DELETE	/api/book/Delete/{id}	            Delete a book by its ID.
-- GET	/api/book/List?search="key search"	   Search for books by title, author, or genre.
-- GET /api/book/BooksRating                  Display books rating.
+- GET	   /api/books                          Get the list of all books.
+- GET	   /api/books/{id}	                  Get a book by its ID.
+- POST	/api/books	                        Add a new book.
+- PUT	   /api/book/Update	                  Update an existing book.
+- DELETE	/api/books/{id}	                  Delete a book by its ID.
+- GET	   /api/books?search="key search"	   Search for books by title, author, or genre.
+- GET    /api/BooksRating                    Display books rating.
+- Get    /api/BooksSql                       Get the list of all books using stored procedure in sql server.
