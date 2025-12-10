@@ -92,12 +92,14 @@ namespace Library.Management.Demo.Repositories
                                 book.BookEditions.Add(bookEdition); // Add if not already present
                             }
 
-                            var libraryName = reader.GetString(reader.GetOrdinal("library_name"));
+                            var libraryName = reader.IsDBNull(reader.GetOrdinal("library_name"))? ""
+                                : reader.GetString(reader.GetOrdinal("library_name"));
                             if (!book.Libraries.Contains(libraryName))
                             {
                                 book.Libraries.Add(libraryName);
                             }
-                            var review = reader.GetString(reader.GetOrdinal("Comment"));
+                            var review = reader.IsDBNull(reader.GetOrdinal("Comment")) ? ""
+                                : reader.GetString(reader.GetOrdinal("Comment"));
                             if (!book.Reviews.Contains(review))
                             {
                                 book.Reviews.Add(review);

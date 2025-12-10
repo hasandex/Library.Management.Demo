@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Library.Management.Demo.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("")]
     public class BookController : ControllerBase
     {
         private readonly IBookeService _bookeService;
@@ -14,14 +14,14 @@ namespace Library.Management.Demo.Controllers
         {
             _bookeService = bookeService;
         }
-        [HttpGet("List")]
+        [HttpGet("Books")]
         public async Task<IActionResult> Get(string? searchKey)
         {
             var books = await _bookeService.GetBooks(searchKey);
             return Ok(new { count = books.Count , list = books} );
         }
 
-        [HttpGet("GetById/{id}")]
+        [HttpGet("Books/{id}")]
         public async Task<ActionResult<Bookdto>> GetById(int id)
         {
             try
@@ -35,7 +35,20 @@ namespace Library.Management.Demo.Controllers
             }
         }
 
-        [HttpPost("Create")]
+        [HttpGet("BooksRating")]
+        public async Task<ActionResult<BookRatingDto>> BooksRating()
+        {
+            var ratings = await _bookeService.GetBooksRate();
+            return Ok(ratings);
+        }
+        [HttpGet("BooksSql")]
+        public async Task<IActionResult> GetBooksFromSql(string? searchKey)
+        {
+            var books = await _bookeService.GetBooksSql(searchKey);
+            return Ok(new { count = books.Count, list = books });
+        }
+
+        [HttpPost("Books")]
         public async Task<IActionResult> Create(CreateUpdateBookDto dto)
         {
             if(!ModelState.IsValid)
@@ -53,7 +66,7 @@ namespace Library.Management.Demo.Controllers
             }
         }
 
-        [HttpPut("Update")]
+        [HttpPut("Books")]
         public async Task<IActionResult> Update(CreateUpdateBookDto dto)
         {
             try
@@ -67,7 +80,7 @@ namespace Library.Management.Demo.Controllers
             }
         }
 
-        [HttpDelete("Delete/{id}")]
+        [HttpDelete("Books/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -83,17 +96,6 @@ namespace Library.Management.Demo.Controllers
             }
         }
 
-        [HttpGet("BooksRating")]
-        public async Task<ActionResult<BookRatingDto>> BooksRating()
-        {
-            var ratings = await _bookeService.GetBooksRate();
-            return Ok(ratings);
-        }
-        [HttpGet("GetBooksSql")]
-        public async Task<IActionResult> GetBooksFromSql(string? searchKey)
-        {
-            var books = await _bookeService.GetBooksSql(searchKey);
-            return Ok(new {count = books.Count, list = books});
-        }
+    
     }
 }
