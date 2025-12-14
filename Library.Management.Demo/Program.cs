@@ -2,6 +2,8 @@ using Library.Management.Demo.IRepositories;
 using Library.Management.Demo.Models;
 using Library.Management.Demo.Repositories;
 using Library.Management.Demo.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +19,9 @@ builder.Services.AddDbContext<AppDbContext>(opt=>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("conStr"));
 });
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IBookeService, BookService>();
 builder.Services.AddScoped<IBookReo, BookRepo>();
